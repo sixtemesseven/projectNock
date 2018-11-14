@@ -109,7 +109,12 @@ int main(void)
   MX_SPI1_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+
+  //SETUP CODE
+
+  //SPI CS Lines
   HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_SET);
 
   /* USER CODE END 2 */
 
@@ -121,16 +126,10 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  //HAL_GPIO_WritePin (LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
-	  //HAL_Delay(500);
-	  //HAL_GPIO_WritePin (LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
-	  //HAL_Delay(500);
 
-	  //ADCL372 setup
-	  //Address
-	  const uint16_t adxlAddress = 0x53; // If addr grounded
+	  //MAIN LOOP CODE
 
-	  //Registers
+	  //Registers for ADXL372
 	  const uint16_t DEVID_AD = 0x00;
 	  const uint16_t DEVID_MST = 0x01;
 	  const uint16_t DEVID_PRODUCT = 0x02;
@@ -171,7 +170,6 @@ int main(void)
 	  const uint16_t TIME_INACT_L = 0x31;
 	  const uint16_t THRESH_ACT2_X_H = 0x32;
 	  const uint16_t THRESH_ACT2_X_L = 0x33;
-	  const uint16_t THRESH_ACT2_Y_H = 0x34;
 	  const uint16_t THRESH_ACT2_Y_L = 0x35;
 	  const uint16_t THRESH_ACT2_Z_H = 0x36;
 	  const uint16_t THRESH_ACT2_Z_L = 0x37;
@@ -187,34 +185,27 @@ int main(void)
 	  const uint16_t RESET = 0x41;
 	  const uint16_t FIFO_DATA = 0x42;
 
-
-
-	  //Setup adxl
-	  uint16_t setup[10] = {};
-
-	  //HAL_I2C_Master_Transmit_DMA(I2C1, adxlAddresss, setup, uint16_t Size);
-
-	  uint8_t comandADXL[10] = {0x00};
-	  comandADXL[0] = 0b00001001;
+	  uint8_t comandADXL[10] = {0x00}; //Comand byte for ADXL372
+	  comandADXL[0] = 0b00000111;
 	  uint8_t dataADXL[50] = {0x00};
 
-	  //HAL_I2C_Mem_Read_DMA(I2C1, 0xA6, 0x01, 1, data, 1);
-
+	  //Write and read ADXL via spi
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_RESET);
 	  HAL_SPI_Transmit(&hspi1, comandADXL, 1, 1000);
-	  HAL_SPI_Receive(&hspi1, dataADXL[i], 1,1000);
+	  HAL_SPI_Receive(&hspi1, dataADXL, 10,1000);
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
 
-	  uint8_t comandBMI[10] = {0x00};
+	  uint8_t comandBMI[10] = {0x00}; //command byte for BMI160
 	  comandBMI[0] = 0b11111010;
 	  uint8_t dataBMI[50] = {0x00};
 
+	  //Read and write to Bosch BMI160
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_RESET);
 	  HAL_SPI_Transmit(&hspi1, comandBMI, 1, 1000);
 	  HAL_SPI_Receive(&hspi1, dataBMI, 8,1000);
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_SET);
 
-	  HAL_Delay(1000);
+	  HAL_Delay(1000); //Loop delay tbd
 
 
 
