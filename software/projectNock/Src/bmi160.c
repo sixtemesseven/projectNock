@@ -44,6 +44,8 @@ uint8_t regRead(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg)
 
 void initializeBMI160(BMI160_SPI_HARDWARE_DEF bmiInterface)
 {
+	HAL_GPIO_WritePin(GPIOA, bmiInterface.BMI160_CSS_PIN, GPIO_PIN_SET);
+	HAL_Delay(25);
 	regWrite(bmiInterface, BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get into known state
 	HAL_Delay(10);
 	regRead(bmiInterface, 0x0F); //dummy read bmi to force spi modes

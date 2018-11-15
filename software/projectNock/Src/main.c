@@ -121,7 +121,7 @@ int main(void)
   /* USER CODE BEGIN 3 */
 
 	  uint8_t data[3] = {0xff};
-	  data[0] = regRead(IMU, 0x03);
+	  data[0] = regRead(IMU, 0x00);
 	  data[1] = regRead(IMU, 0x0e);
 	  HAL_UART_Transmit(&huart2, data, 3, 1000);
 
