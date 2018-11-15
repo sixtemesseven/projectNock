@@ -154,10 +154,13 @@ int main(void)
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
 	  */
 
-
-	  initializeBMI160();
+	  //bmi160 testing
+	  initializeBMI160(bmiIMU);
 	  uint8_t bmi160Data[10] = {0x00};
 	  bmi160Data[9] = (uint8_t) "\n";
+
+	  //TODO remove Debug output below
+	  //Prints data over uart...
 	  HAL_UART_Transmit(&huart2, bmi160Data, 10, 1000);
 	  HAL_Delay(1000);
 
