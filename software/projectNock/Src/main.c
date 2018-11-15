@@ -41,6 +41,8 @@
 #include "stm32l0xx_hal.h"
 
 /* USER CODE BEGIN Includes */
+#include "bmi160.h"
+#include "adxl372.h"
 
 /* USER CODE END Includes */
 
@@ -68,10 +70,19 @@ static void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
+void regWrite(uint8_t reg, uint8_t data);
+void initializeBMI160();
+uint8_t regRead(uint8_t reg);
 
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
+#define BMI160_SSBANK		GPIOA
+#define BMI160_SSPIN 		SPI_NSS2_Pin
+
+//TODO REMOVE GLOBAL
+static uint8_t test[50] = {0x00};
 
 /* USER CODE END 0 */
 
@@ -129,86 +140,23 @@ int main(void)
 
 	  //MAIN LOOP CODE
 
-	  //Registers for ADXL372
-	  const uint16_t DEVID_AD = 0x00;
-	  const uint16_t DEVID_MST = 0x01;
-	  const uint16_t DEVID_PRODUCT = 0x02;
-	  const uint16_t REVID = 0x03;
-	  const uint16_t STATUS = 0x04;
-	  const uint16_t STATUS2 = 0x05;
-	  const uint16_t FIFO_ENTRIES2 = 0x06;
-	  const uint16_t FIFO_ENTRIES = 0x07;
-	  const uint16_t XDATA_H = 0x08;
-	  const uint16_t XDATA_L = 0x09;
-	  const uint16_t YDATA_H = 0x0a;
-	  const uint16_t YDATA_L = 0x0b;
-	  const uint16_t ZDATA_H = 0x0c;
-	  const uint16_t ZDATA_L = 0x0d;
-	  const uint16_t MAXPEAK_X_H = 0x0e;
-	  const uint16_t MAXPEAK_X_L = 0x15;
-	  const uint16_t MAXPEAK_Y_H = 0x16;
-	  const uint16_t MAXPEAK_Y_L = 0x17;
-	  const uint16_t MAXPEAK_Z_H = 0x18;
-	  const uint16_t MAXPEAK_Z_L = 0x19;
-	  const uint16_t OFFSET_X = 0x20;
-	  const uint16_t OFFSET_Y = 0x21;
-	  const uint16_t OFFSET_Z = 0x22;
-	  const uint16_t THRESH_ACT_X_H = 0x23;
-	  const uint16_t THRESH_ACT_X_L = 0x24;
-	  const uint16_t THRESH_ACT_Y_H = 0x25;
-	  const uint16_t THRESH_ACT_Y_L = 0x26;
-	  const uint16_t THRESH_ACT_Z_H = 0x27;
-	  const uint16_t THRESH_ACT_Z_L = 0x28;
-	  const uint16_t TIME_ACT = 0x29;
-	  const uint16_t THRESH_INACT_X_H = 0x2A;
-	  const uint16_t THRESH_INACT_X_L = 0x2B;
-	  const uint16_t THRESH_INACT_Y_H = 0x2c;
-	  const uint16_t THRESH_INACT_Y_L = 0x2d;
-	  const uint16_t THRESH_INACT_Z_H = 0x2e;
-	  const uint16_t THRESH_INACT_Z_L = 0x2f;
-	  const uint16_t TIME_INACT_H = 0x30;
-	  const uint16_t TIME_INACT_L = 0x31;
-	  const uint16_t THRESH_ACT2_X_H = 0x32;
-	  const uint16_t THRESH_ACT2_X_L = 0x33;
-	  const uint16_t THRESH_ACT2_Y_L = 0x35;
-	  const uint16_t THRESH_ACT2_Z_H = 0x36;
-	  const uint16_t THRESH_ACT2_Z_L = 0x37;
-	  const uint16_t HPF = 0x38;
-	  const uint16_t FIFO_SAMPLES = 0x39;
-	  const uint16_t FIFO_CTL = 0x3A;
-	  const uint16_t INT1_MAP = 0x3b;
-	  const uint16_t INT2_MAP = 0x3c;
-	  const uint16_t TIMING = 0x3d;
-	  const uint16_t MEASURE = 0x3e;
-	  const uint16_t POWER_CTL = 0x3f;
-	  const uint16_t SELF_TEST = 0x40;
-	  const uint16_t RESET = 0x41;
-	  const uint16_t FIFO_DATA = 0x42;
-
-	  uint8_t comandADXL[10] = {0x00}; //Comand byte for ADXL372
-	  comandADXL[0] = 0b00000111;
+	  uint8_t comandADXL[1] = {0x00}; //Comand byte for ADXL372
+	  comandADXL[0] = 0x09;
 	  uint8_t dataADXL[50] = {0x00};
 
+	  /*
 	  //Write and read ADXL via spi
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_RESET);
 	  HAL_SPI_Transmit(&hspi1, comandADXL, 1, 1000);
+	  HAL_Delay(1);
 	  HAL_SPI_Receive(&hspi1, dataADXL, 10,1000);
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
-
-	  uint8_t comandBMI[10] = {0x00}; //command byte for BMI160
-	  comandBMI[0] = 0b11111010;
-	  uint8_t dataBMI[50] = {0x00};
-
-	  //Read and write to Bosch BMI160
-	  HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_RESET);
-	  HAL_SPI_Transmit(&hspi1, comandBMI, 1, 1000);
-	  HAL_SPI_Receive(&hspi1, dataBMI, 8,1000);
-	  HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_SET);
-
-	  HAL_Delay(1000); //Loop delay tbd
+	  */
 
 
-
+	  initializeBMI160();
+	  uint8_t id = registerRead(0x00); //regRead(BMI160_RA_CHIP_ID);
+	  HAL_Delay(1000);
 
   }
   /* USER CODE END 3 */
@@ -393,10 +341,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BMI160_ENABLE_GPIO_Port, BMI160_ENABLE_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, SPI_NSS3_Pin|SPI_NSS2_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin : BMI160_ENABLE_Pin */
+  GPIO_InitStruct.Pin = BMI160_ENABLE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BMI160_ENABLE_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : SPI_NSS3_Pin SPI_NSS2_Pin */
   GPIO_InitStruct.Pin = SPI_NSS3_Pin|SPI_NSS2_Pin;
@@ -415,6 +373,51 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void regWrite(uint8_t reg, uint8_t data)
+{
+	uint8_t d[2] = { };
+	d[0] = reg + 0b10000000;
+	d[1] = data;
+
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi1, d, 2, 1000);
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
+}
+
+uint8_t regRead(uint8_t reg)
+{
+	uint8_t d[2] = {};
+	d[0] = reg + 0b10000000;
+
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi1, &d[0], 1, 1000);
+	HAL_Delay(1);
+	HAL_SPI_Receive(&hspi1, &d[1], 1, 1000);
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
+	return d[1];
+}
+
+void initializeBMI160()
+{
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_ENABLE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
+	HAL_Delay(1000);
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_ENABLE_Pin, GPIO_PIN_SET);
+	HAL_Delay(10);
+	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
+
+	regWrite(BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get int known state
+	HAL_Delay(10);
+	regRead(0x0F); //dummy read bmi
+	HAL_Delay(10);
+	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL);
+	HAL_Delay(1000); //TODO can be shorter but must be checked!!!
+	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL);
+	HAL_Delay(1000);
+	regWrite(BMI160_RA_CMD, BMI160_CMD_GYR_MODE_NORMAL);
+	HAL_Delay(1000);
+}
 
 /* USER CODE END 4 */
 

@@ -49,6 +49,8 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define BMI160_ENABLE_Pin GPIO_PIN_0
+#define BMI160_ENABLE_GPIO_Port GPIOA
 #define SPI_NSS3_Pin GPIO_PIN_1
 #define SPI_NSS3_GPIO_Port GPIOA
 #define VCP_TX_Pin GPIO_PIN_2
