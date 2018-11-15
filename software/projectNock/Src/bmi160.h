@@ -11,6 +11,7 @@
 
 #include "stdint.h"
 #include "stdbool.h"
+#include "stm32l0xx_hal.h"
 
 #define BMI160_SPI_READ_BIT         7
 
@@ -241,6 +242,12 @@
 #define BMI160_RA_CMD               0x7E
 
 
+typedef struct BMI160_SPI_HARDWARE_DEF {
+	SPI_HandleTypeDef 		BMI160_SPI_HANDLER;
+	uint16_t 				BMI160_CSS_PIN;
+	GPIO_TypeDef			BMI160_PIN_BANK;
+} BMI160_SPI_HARDWARE_DEF;
+
 /**
  * Interrupt Latch Mode options
  * @see setInterruptLatch()
@@ -442,13 +449,11 @@ typedef enum {
 } BMI160ZeroMotionDuration;
 
 
-<<<<<<< HEAD
 BMI160_SPI_HARDWARE_DEF initBMI160(SPI_HandleTypeDef bmiSPI, uint16_t bmiGPIO, GPIO_TypeDef bmiBANK);
 void regWrite(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg, uint8_t data);
 uint8_t regRead(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg);
 void initializeBMI160(BMI160_SPI_HARDWARE_DEF bmiInterface);
 
-=======
->>>>>>> parent of c53ce6d... wraped bmi160 into seperate class
-
 #endif /* BMI160_H_ */
+
+

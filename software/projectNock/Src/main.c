@@ -42,13 +42,10 @@
 
 /* USER CODE BEGIN Includes */
 #include "bmi160.h"
-#include "adxl372.h"
 
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
-
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
 DMA_HandleTypeDef hdma_spi1_tx;
@@ -64,15 +61,11 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
-static void MX_USART2_UART_Init(void);
 static void MX_SPI1_Init(void);
-static void MX_I2C1_Init(void);
+static void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void regWrite(uint8_t reg, uint8_t data);
-void initializeBMI160();
-uint8_t regRead(uint8_t reg);
 
 /* USER CODE END PFP */
 
@@ -110,20 +103,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_USART2_UART_Init();
   MX_SPI1_Init();
-  MX_I2C1_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
-  //SETUP CODE
-
-<<<<<<< HEAD
-  //BMI160_SPI_HARDWARE_DEF bmiIMU = initBMI160(hspi1, SPI_NSS2_Pin, GPIOA);
-=======
-  //SPI CS Lines
-  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_SET);
->>>>>>> parent of c53ce6d... wraped bmi160 into seperate class
+  BMI160_SPI_HARDWARE_DEF IMU = initBMI160(hspi1, SPI_NSS2_Pin, *GPIOA);
+  initializeBMI160(IMU);
 
   /* USER CODE END 2 */
 
@@ -136,37 +120,12 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	  //MAIN LOOP CODE
-
-<<<<<<< HEAD
-	  //uint8_t comandADXL[1] = {0x00}; //Comand byte for ADXL372
-	  //comandADXL[0] = 0x09;
-	  //uint8_t dataADXL[50] = {0x00};
-=======
-	  uint8_t comandADXL[1] = {0x00}; //Comand byte for ADXL372
-	  comandADXL[0] = 0x09;
-	  uint8_t dataADXL[50] = {0x00};
->>>>>>> parent of c53ce6d... wraped bmi160 into seperate class
-
-	  /*
-	  //Write and read ADXL via spi
-	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_RESET);
-	  HAL_SPI_Transmit(&hspi1, comandADXL, 1, 1000);
-	  HAL_Delay(1);
-	  HAL_SPI_Receive(&hspi1, dataADXL, 10,1000);
-	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
-	  */
-<<<<<<< HEAD
-  	  }
-=======
-
-
-	  initializeBMI160();
-	  uint8_t id = registerRead(0x00); //regRead(BMI160_RA_CHIP_ID);
-	  HAL_Delay(1000);
+	  uint8_t data[3] = {0xff};
+	  data[0] = regRead(IMU, 0x03);
+	  data[1] = regRead(IMU, 0x0e);
+	  HAL_UART_Transmit(&huart2, data, 3, 1000);
 
   }
->>>>>>> parent of c53ce6d... wraped bmi160 into seperate class
   /* USER CODE END 3 */
 
 }
@@ -214,9 +173,8 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
-  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -232,44 +190,6 @@ void SystemClock_Config(void)
 
   /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
-}
-
-/* I2C1 init function */
-static void MX_I2C1_Init(void)
-{
-
-  hi2c1.Instance = I2C1;
-  hi2c1.Init.Timing = 0x00100413;
-  hi2c1.Init.OwnAddress1 = 0;
-  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c1.Init.OwnAddress2 = 0;
-  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure Analogue filter 
-    */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure Digital filter 
-    */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**I2C Fast mode Plus enable 
-    */
-  HAL_I2CEx_EnableFastModePlus(I2C_FASTMODEPLUS_I2C1);
-
 }
 
 /* SPI1 init function */
@@ -381,51 +301,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void regWrite(uint8_t reg, uint8_t data)
-{
-	uint8_t d[2] = { };
-	d[0] = reg + 0b10000000;
-	d[1] = data;
-
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, d, 2, 1000);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
-}
-
-uint8_t regRead(uint8_t reg)
-{
-	uint8_t d[2] = {};
-	d[0] = reg + 0b10000000;
-
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, &d[0], 1, 1000);
-	HAL_Delay(1);
-	HAL_SPI_Receive(&hspi1, &d[1], 1, 1000);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
-	return d[1];
-}
-
-void initializeBMI160()
-{
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_ENABLE_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
-	HAL_Delay(1000);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_ENABLE_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
-
-	regWrite(BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get int known state
-	HAL_Delay(10);
-	regRead(0x0F); //dummy read bmi
-	HAL_Delay(10);
-	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL);
-	HAL_Delay(1000); //TODO can be shorter but must be checked!!!
-	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL);
-	HAL_Delay(1000);
-	regWrite(BMI160_RA_CMD, BMI160_CMD_GYR_MODE_NORMAL);
-	HAL_Delay(1000);
-}
 
 /* USER CODE END 4 */
 
