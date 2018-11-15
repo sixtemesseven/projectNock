@@ -17,7 +17,6 @@ BMI160_SPI_HARDWARE_DEF initBMI160(SPI_HandleTypeDef bmiSPI, uint16_t bmiGPIO, G
 	return buf;
 }
 
-//write a single register
 void regWrite(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg, uint8_t data)
 {
 	uint8_t d[2] = { };
@@ -29,11 +28,10 @@ void regWrite(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg, uint8_t data)
 	HAL_GPIO_WritePin(&bmiInterface.BMI160_PIN_BANK, bmiInterface.BMI160_SPI_CSS_PIN, GPIO_PIN_SET);
 }
 
-//read a single register
 uint8_t regRead(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg)
 {
 	uint8_t d[2] = {};
-	d[0] = reg | 0b10000000; //Set the MSB address bit high in order to issue a read operation
+	d[0] = reg + 0b10000000;
 
 	HAL_GPIO_WritePin(&bmiInterface.BMI160_PIN_BANK, bmiInterface.BMI160_SPI_CSS_PIN, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(&bmiInterface.BMI160_SPI_HANDLER, &d[0], 1, 1000);
@@ -43,15 +41,6 @@ uint8_t regRead(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg)
 	return d[1];
 }
 
-//Input inByte and get back value of bit at position
-bool splitByte(uint8_t inByte, uint8_t position)
-{
-	uint8_t buf = inByte;
-	inByte = inByte << (7-position);
-	return (buf != 0);
-}
-
-//Standard initialization of bmi160, do at setup
 void initializeBMI160(BMI160_SPI_HARDWARE_DEF bmiInterface)
 {
 	regWrite(bmiInterface, BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get into known state
