@@ -142,27 +142,8 @@ int main(void)
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
 	  */
 
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-	  //initializeBMI160(bmiIMU);
-	  //uint8_t bmi160Data[10] = {0x00};
-	  bmi160Data[9] = (uint8_t) "\n";
-	  //HAL_UART_Transmit(&huart2, bmi160Data, 10, 1000);
-	  //HAL_Delay(1000);
-=======
-=======
->>>>>>> parent of 7c45a95... changed test part in main.c
-	  initializeBMI160();
-	  uint8_t bmi160Data[10] = {0x00};
-	  bmi160Data[9] = (uint8_t) "\n";
-	  HAL_UART_Transmit(&huart2, bmi160Data, 10, 1000);
-	  HAL_Delay(1000);
->>>>>>> parent of 7c45a95... changed test part in main.c
-
-  }
-  /* USER CODE END 3 */
-
+  	  }
+  	  /* USER CODE END 3 */
 }
 
 /**
