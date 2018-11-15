@@ -141,9 +141,9 @@ int main(void)
 	  HAL_SPI_Receive(&hspi1, dataADXL, 10,1000);
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
 	  */
-
   	  }
-  	  /* USER CODE END 3 */
+  /* USER CODE END 3 */
+
 }
 
 /**
