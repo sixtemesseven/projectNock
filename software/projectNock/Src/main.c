@@ -75,12 +75,6 @@ static void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN 0 */
 
-#define BMI160_SSBANK		GPIOA
-#define BMI160_SSPIN 		SPI_NSS2_Pin
-
-//TODO REMOVE GLOBAL
-static uint8_t test[50] = {0x00};
-
 /* USER CODE END 0 */
 
 /**
@@ -120,11 +114,7 @@ int main(void)
 
   //SETUP CODE
 
-  //SPI CS Lines
-  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_SET);
-
-  BMI160_SPI_HARDWARE_DEF bmiIMU = initBMI160(hspi1, SPI_NSS2_Pin, GPIOA);
+  //BMI160_SPI_HARDWARE_DEF bmiIMU = initBMI160(hspi1, SPI_NSS2_Pin, GPIOA);
 
   /* USER CODE END 2 */
 
@@ -139,11 +129,9 @@ int main(void)
 
 	  //MAIN LOOP CODE
 
-	  testTest();
-
-	  uint8_t comandADXL[1] = {0x00}; //Comand byte for ADXL372
-	  comandADXL[0] = 0x09;
-	  uint8_t dataADXL[50] = {0x00};
+	  //uint8_t comandADXL[1] = {0x00}; //Comand byte for ADXL372
+	  //comandADXL[0] = 0x09;
+	  //uint8_t dataADXL[50] = {0x00};
 
 	  /*
 	  //Write and read ADXL via spi
@@ -154,15 +142,12 @@ int main(void)
 	  HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
 	  */
 
-	  //bmi160 testing
-	  initializeBMI160(bmiIMU);
-	  uint8_t bmi160Data[10] = {0x00};
-	  bmi160Data[9] = (uint8_t) "\n";
 
-	  //TODO remove Debug output below
-	  //Prints data over uart...
-	  HAL_UART_Transmit(&huart2, bmi160Data, 10, 1000);
-	  HAL_Delay(1000);
+	  //initializeBMI160(bmiIMU);
+	  //uint8_t bmi160Data[10] = {0x00};
+	  bmi160Data[9] = (uint8_t) "\n";
+	  //HAL_UART_Transmit(&huart2, bmi160Data, 10, 1000);
+	  //HAL_Delay(1000);
 
   }
   /* USER CODE END 3 */

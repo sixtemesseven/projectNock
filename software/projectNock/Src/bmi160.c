@@ -7,9 +7,6 @@
 
 #include "bmi160.h"
 
-testTest()
-{
-}
 
 BMI160_SPI_HARDWARE_DEF initBMI160(SPI_HandleTypeDef bmiSPI, uint16_t bmiGPIO, GPIO_TypeDef bmiBANK)
 {

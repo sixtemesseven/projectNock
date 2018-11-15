@@ -453,7 +453,6 @@ typedef enum {
 } BMI160ZeroMotionDuration;
 
 
-void testTest();
 BMI160_SPI_HARDWARE_DEF initBMI160(SPI_HandleTypeDef bmiSPI, uint16_t bmiGPIO, GPIO_TypeDef bmiBANK);
 void regWrite(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg, uint8_t data);
 uint8_t regRead(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg);
