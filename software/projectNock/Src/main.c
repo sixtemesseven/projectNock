@@ -70,9 +70,6 @@ static void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void regWrite(uint8_t reg, uint8_t data);
-void initializeBMI160();
-uint8_t regRead(uint8_t reg);
 
 /* USER CODE END PFP */
 
@@ -127,6 +124,8 @@ int main(void)
   HAL_GPIO_WritePin (GPIOA, SPI_NSS3_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin (GPIOA, SPI_NSS2_Pin, GPIO_PIN_SET);
 
+  BMI160_SPI_HARDWARE_DEF bmiIMU = initBMI160(hspi1, SPI_NSS2_Pin, GPIOA);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -139,6 +138,8 @@ int main(void)
   /* USER CODE BEGIN 3 */
 
 	  //MAIN LOOP CODE
+
+	  testTest();
 
 	  uint8_t comandADXL[1] = {0x00}; //Comand byte for ADXL372
 	  comandADXL[0] = 0x09;
@@ -155,7 +156,9 @@ int main(void)
 
 
 	  initializeBMI160();
-	  uint8_t id = registerRead(0x00); //regRead(BMI160_RA_CHIP_ID);
+	  uint8_t bmi160Data[10] = {0x00};
+	  bmi160Data[9] = (uint8_t) "\n";
+	  HAL_UART_Transmit(&huart2, bmi160Data, 10, 1000);
 	  HAL_Delay(1000);
 
   }
@@ -374,50 +377,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-void regWrite(uint8_t reg, uint8_t data)
-{
-	uint8_t d[2] = { };
-	d[0] = reg + 0b10000000;
-	d[1] = data;
-
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, d, 2, 1000);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
-}
-
-uint8_t regRead(uint8_t reg)
-{
-	uint8_t d[2] = {};
-	d[0] = reg + 0b10000000;
-
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, &d[0], 1, 1000);
-	HAL_Delay(1);
-	HAL_SPI_Receive(&hspi1, &d[1], 1, 1000);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
-	return d[1];
-}
-
-void initializeBMI160()
-{
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_ENABLE_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_RESET);
-	HAL_Delay(1000);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_ENABLE_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(BMI160_SSBANK, BMI160_SSPIN, GPIO_PIN_SET);
-
-	regWrite(BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get int known state
-	HAL_Delay(10);
-	regRead(0x0F); //dummy read bmi
-	HAL_Delay(10);
-	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL);
-	HAL_Delay(1000); //TODO can be shorter but must be checked!!!
-	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL);
-	HAL_Delay(1000);
-	regWrite(BMI160_RA_CMD, BMI160_CMD_GYR_MODE_NORMAL);
-	HAL_Delay(1000);
-}
 
 /* USER CODE END 4 */
 

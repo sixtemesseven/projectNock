@@ -61,7 +61,6 @@
 	  const uint16_t MEASURE = 0x3e;
 	  const uint16_t POWER_CTL = 0x3f;
 	  const uint16_t SELF_TEST = 0x40;
-	  const uint16_t RESET = 0x41;
 	  const uint16_t FIFO_DATA = 0x42;
 
 
