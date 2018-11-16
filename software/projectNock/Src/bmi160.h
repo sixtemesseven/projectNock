@@ -457,7 +457,12 @@ class BMI160
 		void initializeBMI160();													//Initializes sensor, start up etc. call first!
 		bool testBMI160();															//Reads register 0x00 which should return 0x1d, then true
 		void multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos); 		//Returns pointer with nos samples
-		void getDataBMI160(uint16_t* data);											//Returns pointer to uint16_t array with accel and gyro in all three axes
+		void getReadableDataBMI160(uint32_t* data);									//Returns pointer to uint16_t array with accel and gyro in all three axes
+		void setAccRange(BMI160AccelRange range);
+		void setGyroRange(BMI160GyroRange range);
+		void setAccelRate(BMI160AccelRate rate);
+		void setGyroRate(BMI160GyroRate rate);
+		void setLowPassMode(BMI160DLPFMode lpf);
 
 	private:
 		SPI_HandleTypeDef* BMI160_SPI_HANDLER;			//Spi handler and pin setting stuff

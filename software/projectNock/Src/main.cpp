@@ -122,8 +122,11 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	  uint8_t imuData[12] = {0xff};
-	  imuData[0] = IMU.regRead(0x17);
+	  uint32_t sen[8] = {0};
+	  uint8_t sens[8] = {0};
+	  IMU.getReadableDataBMI160(sen);
+	  IMU.multiReadBMI160(0x00, sens, 3);
+	  sen[7] = IMU.regRead(0x03);
 	  HAL_Delay(500);
 
 	  //uint8_t data[3] = {0xff};

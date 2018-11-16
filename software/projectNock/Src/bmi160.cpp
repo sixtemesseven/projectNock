@@ -8,7 +8,6 @@
 #include "bmi160.h"
 
 
-
 void BMI160::regWrite(uint8_t reg, uint8_t data)
 {
 	uint8_t d[2] = { };
@@ -47,10 +46,39 @@ void BMI160::initializeBMI160()
 	HAL_Delay(2000); //TODO can be shorter but must be checked!!!
 }
 
-bool testBMI160()
+bool BMI160::testBMI160()
 {
-
-
+	return(regRead(0x00)==0x1D);
 }
-void multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos);
-void getDataBMI160(uint16_t* data);
+
+void BMI160::multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos)
+{
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET);
+	uint8_t startRegOne = startReg + 0b10000000; //read access so plus 128
+	HAL_SPI_Transmit(BMI160_SPI_HANDLER, &startRegOne, 1, 1000);
+	HAL_SPI_Receive(BMI160_SPI_HANDLER, data, nos, 1000);
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
+}
+
+void BMI160::getReadableDataBMI160(uint32_t* data)
+{
+	//k counts the position of buffer[]
+	//i counts the position of data[]
+
+	uint8_t buffer[15] = {0x00};
+	multiReadBMI160(0x0C, buffer, 15);
+
+	uint8_t k = 0;
+	for(int i = 0; i < 6; i++)
+	{
+		data[i] = buffer[k]; //gyro / accel LSB
+		k++;
+		data[i] = ((uint16_t) buffer[k]) << 8; //MSB
+		k++;
+	}
+	for(int i = 0; i < 3; i++)
+	{
+		data[6] += buffer[k] << 8*k; //sensor time lsb to msb
+		k++;
+	}
+}
