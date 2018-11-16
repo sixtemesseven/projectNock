@@ -82,3 +82,8 @@ void BMI160::getReadableDataBMI160(uint32_t* data)
 		k++;
 	}
 }
+
+void BMI160::getQuickDataBMI160(uint8_t* data)
+{
+	multiReadBMI160(0x0C, data, 15);
+}

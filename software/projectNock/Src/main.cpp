@@ -42,6 +42,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "bmi160.h"
+#include <stdio.h>
 
 /* USER CODE END Includes */
 
@@ -111,6 +112,7 @@ int main(void)
 
   IMU.initializeBMI160();
 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,12 +124,10 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	  uint32_t sen[8] = {0};
-	  uint8_t sens[8] = {0};
-	  IMU.getReadableDataBMI160(sen);
-	  IMU.multiReadBMI160(0x00, sens, 3);
-	  sen[7] = IMU.regRead(0x03);
-	  HAL_Delay(500);
+	  uint8_t sen[16] = {0};
+	  sen[15] = 0x0d;
+	  IMU.getQuickDataBMI160(sen);
+	  HAL_UART_Transmit(&huart2, (uint8_t*) sen, 16, 1000);
 
 	  //uint8_t data[3] = {0xff};
 	  //data[0] = regRead(IMU, 0x03);
