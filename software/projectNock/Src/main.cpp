@@ -41,7 +41,7 @@
 #include "stm32l0xx_hal.h"
 
 /* USER CODE BEGIN Includes */
-//#include "bmi160.h"
+#include "bmi160.h"
 
 /* USER CODE END Includes */
 
@@ -54,6 +54,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+
 
 /* USER CODE END PV */
 
@@ -81,6 +82,7 @@ static void MX_USART2_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	BMI160 IMU(&hspi1, SPI_NSS2_Pin, GPIOA);
 
   /* USER CODE END 1 */
 
@@ -106,8 +108,8 @@ int main(void)
   MX_SPI1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  //bmi160::BMI160_SPI_HARDWARE_DEF IMU = initBMI160(hspi1, SPI_NSS2_Pin, *GPIOA);
-  //initializeBMI160(IMU);
+
+  IMU.initializeBMI160();
 
   /* USER CODE END 2 */
 
@@ -119,6 +121,10 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+
+	  uint8_t imuData[12] = {0xff};
+	  imuData[0] = IMU.regRead(0x17);
+	  HAL_Delay(500);
 
 	  //uint8_t data[3] = {0xff};
 	  //data[0] = regRead(IMU, 0x03);
@@ -204,7 +210,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;

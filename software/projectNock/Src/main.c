@@ -81,6 +81,7 @@ static void MX_USART2_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	testTest();
 
   /* USER CODE END 1 */
 

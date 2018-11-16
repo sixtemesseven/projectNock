@@ -8,53 +8,49 @@
 #include "bmi160.h"
 
 
-BMI160_SPI_HARDWARE_DEF initBMI160(SPI_HandleTypeDef bmiSPI, uint16_t bmiGPIO, GPIO_TypeDef bmiBANK)
-{
-	BMI160_SPI_HARDWARE_DEF buf;
-	buf.BMI160_SPI_HANDLER = bmiSPI;
-	buf.BMI160_CSS_PIN = bmiGPIO;
-	buf.BMI160_PIN_BANK = bmiBANK;
-	return buf;
-}
 
-
-void regWrite(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg, uint8_t data)
+void BMI160::regWrite(uint8_t reg, uint8_t data)
 {
 	uint8_t d[2] = { };
 	d[0] = reg;
 	d[1] = data;
 
-	HAL_GPIO_WritePin(GPIOA, bmiInterface.BMI160_CSS_PIN, GPIO_PIN_RESET); //TODO replace GPIO with sturct
-	HAL_SPI_Transmit(&bmiInterface.BMI160_SPI_HANDLER, d, 2, 1000);
-	HAL_GPIO_WritePin(GPIOA, bmiInterface.BMI160_CSS_PIN, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET); //TODO replace GPIO with sturct
+	HAL_SPI_Transmit(BMI160_SPI_HANDLER, d, 2, 1000);
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
 }
 
-uint8_t regRead(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg)
+uint8_t BMI160::regRead(uint8_t reg)
 {
 	uint8_t d[2] = {};
 	d[0] = reg + 0b10000000;
 
-	HAL_GPIO_WritePin(GPIOA, bmiInterface.BMI160_CSS_PIN, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&bmiInterface.BMI160_SPI_HANDLER, &d[0], 1, 1000);
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(BMI160_SPI_HANDLER, &d[0], 1, 1000);
 	HAL_Delay(1);
-	HAL_SPI_Receive(&bmiInterface.BMI160_SPI_HANDLER, &d[1], 1, 1000);
-	HAL_GPIO_WritePin(GPIOA, bmiInterface.BMI160_CSS_PIN, GPIO_PIN_SET);
+	HAL_SPI_Receive(BMI160_SPI_HANDLER, &d[1], 1, 1000);
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
 	return d[1];
 }
 
-void initializeBMI160(BMI160_SPI_HARDWARE_DEF bmiInterface)
+void BMI160::initializeBMI160()
 {
-	regWrite(bmiInterface, BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get into known state
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET); //Set css pin high
+	HAL_Delay(100);
+	regWrite(BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get into known state
 	HAL_Delay(10);
-	regRead(bmiInterface, 0x0F); //dummy read bmi to force spi modes
+	regRead(0x0F); //dummy read bmi to force spi modes
 	HAL_Delay(10);
-	regWrite(bmiInterface, BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL); //start accelerometer
+	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL); //start accelerometer
 	HAL_Delay(2000); //TODO can be shorter but must be checked!!!
-	regWrite(bmiInterface, BMI160_RA_CMD, BMI160_CMD_GYR_MODE_NORMAL); //start gyros
+	regWrite(BMI160_RA_CMD, BMI160_CMD_GYR_MODE_NORMAL); //start gyros
 	HAL_Delay(2000); //TODO can be shorter but must be checked!!!
 }
 
+bool testBMI160()
+{
 
 
-
-
+}
+void multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos);
+void getDataBMI160(uint16_t* data);

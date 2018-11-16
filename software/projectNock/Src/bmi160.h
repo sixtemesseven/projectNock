@@ -242,12 +242,6 @@
 #define BMI160_RA_CMD               0x7E
 
 
-typedef struct BMI160_SPI_HARDWARE_DEF {
-	SPI_HandleTypeDef 		BMI160_SPI_HANDLER;
-	uint16_t 				BMI160_CSS_PIN;
-	GPIO_TypeDef			BMI160_PIN_BANK;
-} BMI160_SPI_HARDWARE_DEF;
-
 /**
  * Interrupt Latch Mode options
  * @see setInterruptLatch()
@@ -449,10 +443,28 @@ typedef enum {
 } BMI160ZeroMotionDuration;
 
 
-BMI160_SPI_HARDWARE_DEF initBMI160(SPI_HandleTypeDef bmiSPI, uint16_t bmiGPIO, GPIO_TypeDef bmiBANK);
-void regWrite(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg, uint8_t data);
-uint8_t regRead(BMI160_SPI_HARDWARE_DEF bmiInterface, uint8_t reg);
-void initializeBMI160(BMI160_SPI_HARDWARE_DEF bmiInterface);
+class BMI160
+{
+	public:
+		BMI160(SPI_HandleTypeDef* bmiSPI, uint16_t bmiGPIO, GPIO_TypeDef* bmiBANK)
+		{
+			BMI160_SPI_HANDLER = bmiSPI;
+			BMI160_CSS_PIN = bmiGPIO;
+			BMI160_PIN_BANK = bmiBANK;
+		}
+		void regWrite(uint8_t reg, uint8_t data); 									//Writes a byte into one register
+		uint8_t regRead(uint8_t reg); 												//Reads one register
+		void initializeBMI160();													//Initializes sensor, start up etc. call first!
+		bool testBMI160();															//Reads register 0x00 which should return 0x1d, then true
+		void multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos); 		//Returns pointer with nos samples
+		void getDataBMI160(uint16_t* data);											//Returns pointer to uint16_t array with accel and gyro in all three axes
+
+	private:
+		SPI_HandleTypeDef* BMI160_SPI_HANDLER;			//Spi handler and pin setting stuff
+		uint16_t BMI160_CSS_PIN;
+		GPIO_TypeDef* BMI160_PIN_BANK;
+};
+
 
 #endif /* BMI160_H_ */
 
