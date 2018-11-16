@@ -42,7 +42,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "bmi160.h"
-#include <stdio.h>
+
 
 /* USER CODE END Includes */
 
@@ -117,6 +117,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint8_t sen[16] = {0};
+  char buffer [5];
+
   while (1)
   {
 
@@ -125,9 +128,15 @@ int main(void)
   /* USER CODE BEGIN 3 */
 
 	  uint8_t sen[16] = {0};
-	  sen[15] = 0x0d;
+	  char buffer [5];
+
 	  IMU.getQuickDataBMI160(sen);
+
+	  //sprintf(buffer, "\n", sen[0]);
+	  //sprintf(buffer, "%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\n\r", sen[0], sen[1],sen[2],sen[3],sen[4],sen[5],sen[6],sen[7],sen[8],sen[9],sen[10],sen[11],sen[12],sen[13],sen[14]);
+
 	  HAL_UART_Transmit(&huart2, (uint8_t*) sen, 16, 1000);
+	  HAL_UART_Transmit(&huart2, (uint8_t*) "\n", 1, 1000);
 
 	  //uint8_t data[3] = {0xff};
 	  //data[0] = regRead(IMU, 0x03);
@@ -136,7 +145,6 @@ int main(void)
 
   }
   /* USER CODE END 3 */
-
 }
 
 /**
