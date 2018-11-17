@@ -22,7 +22,7 @@ void BMI160::regWrite(uint8_t reg, uint8_t data)
 uint8_t BMI160::regRead(uint8_t reg)
 {
 	uint8_t d[2] = {};
-	d[0] = reg + 0b10000000;
+	d[0] = reg + 0b10000000; //MSB must be 1 for read comand!
 
 	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(BMI160_SPI_HANDLER, &d[0], 1, 1000);
@@ -34,25 +34,28 @@ uint8_t BMI160::regRead(uint8_t reg)
 
 void BMI160::initializeBMI160()
 {
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET); //Set css pin high
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET); //Set css pin high to bring sensor into SPI mode. Consider using a physical pulldown resistor at css to make sure it is low at boot time of bmi160
 	HAL_Delay(100);
 	regWrite(BMI160_RA_CMD, BMI160_CMD_SOFT_RESET); //Soft reset to get into known state
 	HAL_Delay(10);
 	regRead(0x0F); //dummy read bmi to force spi modes
 	HAL_Delay(10);
 	regWrite(BMI160_RA_CMD, BMI160_CMD_ACC_MODE_NORMAL); //start accelerometer
-	HAL_Delay(2000); //TODO can be shorter but must be checked!!!
+	HAL_Delay(2000); //TODO can be shorter but must be checked!!! Bitred...
 	regWrite(BMI160_RA_CMD, BMI160_CMD_GYR_MODE_NORMAL); //start gyros
 	HAL_Delay(2000); //TODO can be shorter but must be checked!!!
 }
 
 bool BMI160::testBMI160()
 {
+	//Testing device id of device
 	return(regRead(0x00)==0x1D);
 }
 
 void BMI160::multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos)
 {
+	//Send one byte specifing the register to read
+	//Read nos bytes of data back
 	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET);
 	uint8_t startRegOne = startReg + 0b10000000; //read access so plus 128
 	HAL_SPI_Transmit(BMI160_SPI_HANDLER, &startRegOne, 1, 1000);
@@ -62,28 +65,31 @@ void BMI160::multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos)
 
 void BMI160::getReadableDataBMI160(uint32_t* data)
 {
-	//k counts the position of buffer[]
-	//i counts the position of data[]
-
+	//Read sensor bytes into buffer
 	uint8_t buffer[15] = {0x00};
 	multiReadBMI160(0x0C, buffer, 15);
 
+	//Calculate Accel and Gyro values
+	//k counts the position of buffer[]
+	//i counts the position of data[]
 	uint8_t k = 0;
-	for(int i = 0; i < 6; i++)
+	for(uint8_t i = 0; i < 6; i++)
 	{
-		data[i] = buffer[k]; //gyro / accel LSB
-		k++;
-		data[i] = ((uint16_t) buffer[k]) << 8; //MSB
-		k++;
+		data[i] = (uint32_t) buffer[k++]; 				//LSB
+		data[i] += ((uint32_t) buffer[k++]) << 8; 		//MSB
 	}
-	for(int i = 0; i < 3; i++)
+
+	//Calculate Sensor Time
+	//k counts the position of buffer[]
+	//j counts the bitshift position
+	for(uint8_t j = 0; j < 3; j++)
 	{
-		data[6] += buffer[k] << 8*k; //sensor time lsb to msb
-		k++;
+		data[6] += (buffer[k++] << (8*j)); 				//sensor time lsb to msb
 	}
 }
 
 void BMI160::getQuickDataBMI160(uint8_t* data)
 {
+	//Read Accel and Gyro Bytes and write to data
 	multiReadBMI160(0x0C, data, 15);
 }

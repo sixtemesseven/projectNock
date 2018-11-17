@@ -138,20 +138,29 @@ int main(void)
 	  //HAL_Delay(100);
 
 	  uint8_t sen[16] = {0};
-	  char buffer [5];
+	  uint32_t sen32[7] = {0};
+	  char buffer [100] = {};
 
-	  IMU.getQuickDataBMI160(sen);
+	  //IMU.getQuickDataBMI160(sen);
+	  IMU.getReadableDataBMI160(sen32);
 
-	  //sprintf(buffer, "\n", sen[0]);
+	  //Pack everything in buffer
 	  //sprintf(buffer, "%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\n\r", sen[0], sen[1],sen[2],sen[3],sen[4],sen[5],sen[6],sen[7],sen[8],sen[9],sen[10],sen[11],sen[12],sen[13],sen[14]);
+	  sprintf(buffer, "%08lu\n\r", sen32[0]);
 
-	  //HAL_UART_Transmit(&huart2, (uint8_t*) sen, 16, 1000);
-	  //HAL_UART_Transmit(&huart2, (uint8_t*) "\n", 1, 1000);
+	  //Find out how many chars are meaningfull
+	  uint8_t len = 0;
+	  while(len < 100)
+	  {
+		  if(buffer[len] == '\r')
+		  {
+			  break;
+		  }
+		  len++;
+	  }
 
-	  //uint8_t data[3] = {0xff};
-	  //data[0] = regRead(IMU, 0x03);
-	  //data[1] = regRead(IMU, 0x0e);
-	  //HAL_UART_Transmit(&huart2, data, 3, 1000);
+	  //Send data via uart
+	  HAL_UART_Transmit(&huart6, (uint8_t*) buffer, len, 1000);
 
   /* USER CODE BEGIN 3 */
 
