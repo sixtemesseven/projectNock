@@ -9,9 +9,9 @@
 #ifndef BMI160_H_
 #define BMI160_H_
 
-#include "stdint.h"
-#include "stdbool.h"
-#include "stm32l0xx_hal.h"
+//#include "stdint.h"
+//#include "stdbool.h"
+#include "stm32f0xx_hal.h"
 
 #define BMI160_SPI_READ_BIT         7
 
@@ -455,7 +455,7 @@ class BMI160
 		void regWrite(uint8_t reg, uint8_t data); 									//Writes a byte into one register
 		uint8_t regRead(uint8_t reg); 												//Reads one register
 		void initializeBMI160();													//Initializes sensor, start up etc. call first!
-		bool testBMI160();															//Reads register 0x00 which should return 0x1d, then true
+		//bool testBMI160();															//Reads register 0x00 which should return 0x1d, then true
 		void multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos); 		//Returns pointer with nos samples
 		void getReadableDataBMI160(uint32_t* data);									//Returns pointer to uint16_t array with accel and gyro in all three axes
 		void getQuickDataBMI160(uint8_t* data);										//Returns pointer to accel gyro and time in 15x uint8_t array
