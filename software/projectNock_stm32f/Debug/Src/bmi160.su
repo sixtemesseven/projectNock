@@ -1,0 +1,7 @@
+bmi160.cpp:11:6:void BMI160::regWrite(uint8_t, uint8_t)	16	static
+bmi160.cpp:22:9:uint8_t BMI160::regRead(uint8_t)	24	static
+bmi160.cpp:35:6:void BMI160::initializeBMI160()	8	static
+bmi160.cpp:49:6:bool BMI160::testBMI160()	8	static
+bmi160.cpp:54:6:void BMI160::multiReadBMI160(uint8_t, uint8_t*, uint8_t)	32	static
+bmi160.cpp:63:6:void BMI160::getReadableDataBMI160(uint32_t*)	32	static
+bmi160.cpp:86:6:void BMI160::getQuickDataBMI160(uint8_t*)	0	static
