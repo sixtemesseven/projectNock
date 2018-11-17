@@ -3,7 +3,7 @@ Archive member included to satisfy reference by file (symbol)
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-init.o)
                               startup\startup_stm32f401xe.o (__libc_init_array)
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-memset.o)
-                              Src\bmi160.o (memset)
+                              Src\adxl372.o (memset)
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-sprintf.o)
                               Src\main.o (sprintf)
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-impure.o)
@@ -37,7 +37,7 @@ c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gc
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(_udivmoddi4.o)
                               c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(_aeabi_uldivmod.o) (__udivmoddi4)
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(unwind-arm.o)
-                              Src\bmi160.o (__aeabi_unwind_cpp_pr0)
+                              Src\adxl372.o (__aeabi_unwind_cpp_pr0)
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(libunwind.o)
                               c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(unwind-arm.o) (restore_core_regs)
 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(pr-support.o)
@@ -778,6 +778,63 @@ Discarded input sections
                 0x00000000        0xc Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
  .text.HAL_UART_GetError
                 0x00000000        0x4 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
+ .text          0x00000000        0x0 Src\adxl372.o
+ .data          0x00000000        0x0 Src\adxl372.o
+ .bss           0x00000000        0x0 Src\adxl372.o
+ .text._ZN7ADXL3728regWriteEhh
+                0x00000000       0x32 Src\adxl372.o
+ .ARM.extab.text._ZN7ADXL3728regWriteEhh
+                0x00000000        0x0 Src\adxl372.o
+ .ARM.exidx.text._ZN7ADXL3728regWriteEhh
+                0x00000000        0x8 Src\adxl372.o
+ .text._ZN7ADXL3727regReadEh
+                0x00000000       0x50 Src\adxl372.o
+ .ARM.extab.text._ZN7ADXL3727regReadEh
+                0x00000000        0x0 Src\adxl372.o
+ .ARM.exidx.text._ZN7ADXL3727regReadEh
+                0x00000000        0x8 Src\adxl372.o
+ .text._ZN7ADXL37210initializeEv
+                0x00000000        0x2 Src\adxl372.o
+ .ARM.extab.text._ZN7ADXL37210initializeEv
+                0x00000000        0x0 Src\adxl372.o
+ .ARM.exidx.text._ZN7ADXL37210initializeEv
+                0x00000000        0x8 Src\adxl372.o
+ .text._ZN7ADXL3724testEv
+                0x00000000       0x12 Src\adxl372.o
+ .ARM.extab.text._ZN7ADXL3724testEv
+                0x00000000        0xc Src\adxl372.o
+ .ARM.exidx.text._ZN7ADXL3724testEv
+                0x00000000        0x8 Src\adxl372.o
+ .text._ZN7ADXL3729multiReadEhPhh
+                0x00000000       0x44 Src\adxl372.o
+ .ARM.extab.text._ZN7ADXL3729multiReadEhPhh
+                0x00000000        0x0 Src\adxl372.o
+ .ARM.exidx.text._ZN7ADXL3729multiReadEhPhh
+                0x00000000        0x8 Src\adxl372.o
+ .text._ZN7ADXL37215getReadableDataEPm
+                0x00000000       0x62 Src\adxl372.o
+ .ARM.extab.text._ZN7ADXL37215getReadableDataEPm
+                0x00000000        0x0 Src\adxl372.o
+ .ARM.exidx.text._ZN7ADXL37215getReadableDataEPm
+                0x00000000        0x8 Src\adxl372.o
+ .text._ZN7ADXL37212getQuickDataEPh
+                0x00000000        0xa Src\adxl372.o
+ .ARM.extab.text._ZN7ADXL37212getQuickDataEPh
+                0x00000000        0x0 Src\adxl372.o
+ .ARM.exidx.text._ZN7ADXL37212getQuickDataEPh
+                0x00000000        0x8 Src\adxl372.o
+ .debug_info    0x00000000     0x16b7 Src\adxl372.o
+ .debug_abbrev  0x00000000      0x301 Src\adxl372.o
+ .debug_loc     0x00000000      0x24d Src\adxl372.o
+ .debug_aranges
+                0x00000000       0x50 Src\adxl372.o
+ .debug_ranges  0x00000000       0x58 Src\adxl372.o
+ .debug_line    0x00000000      0x389 Src\adxl372.o
+ .debug_str     0x00000000      0xfef Src\adxl372.o
+ .comment       0x00000000       0x7d Src\adxl372.o
+ .debug_frame   0x00000000       0xc0 Src\adxl372.o
+ .ARM.attributes
+                0x00000000       0x39 Src\adxl372.o
  .text          0x00000000        0x0 Src\bmi160.o
  .data          0x00000000        0x0 Src\bmi160.o
  .bss           0x00000000        0x0 Src\bmi160.o
@@ -1002,6 +1059,7 @@ LOAD Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 LOAD Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.o
 LOAD Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim_ex.o
 LOAD Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
+LOAD Src\adxl372.o
 LOAD Src\bmi160.o
 LOAD Src\main.o
 LOAD Src\stm32f4xx_hal_msp.o
@@ -1676,7 +1734,7 @@ LOAD c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../l
                 0x00000734       0x22 c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu/crtn.o
 OUTPUT(projectNock_stm32f.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x14c8f
+.debug_info     0x00000000    0x14e6c
  .debug_info    0x00000000     0x110b Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
  .debug_info    0x0000110b     0x16ae Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.o
  .debug_info    0x000027b9     0x1254 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.o
@@ -1686,13 +1744,13 @@ OUTPUT(projectNock_stm32f.elf elf32-littlearm)
  .debug_info    0x000093e0     0x23ca Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
  .debug_info    0x0000b7aa     0x1e9b Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
  .debug_info    0x0000d645     0x1705 Src\bmi160.o
- .debug_info    0x0000ed4a     0x24c6 Src\main.o
- .debug_info    0x00011210     0x1d06 Src\stm32f4xx_hal_msp.o
- .debug_info    0x00012f16      0xf87 Src\stm32f4xx_it.o
- .debug_info    0x00013e9d      0xd46 Src\system_stm32f4xx.o
- .debug_info    0x00014be3       0xac startup\startup_stm32f401xe.o
+ .debug_info    0x0000ed4a     0x26a3 Src\main.o
+ .debug_info    0x000113ed     0x1d06 Src\stm32f4xx_hal_msp.o
+ .debug_info    0x000130f3      0xf87 Src\stm32f4xx_it.o
+ .debug_info    0x0001407a      0xd46 Src\system_stm32f4xx.o
+ .debug_info    0x00014dc0       0xac startup\startup_stm32f401xe.o
 
-.debug_abbrev   0x00000000     0x27e7
+.debug_abbrev   0x00000000     0x27fc
  .debug_abbrev  0x00000000      0x308 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
  .debug_abbrev  0x00000308      0x399 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.o
  .debug_abbrev  0x000006a1      0x33d Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.o
@@ -1702,11 +1760,11 @@ OUTPUT(projectNock_stm32f.elf elf32-littlearm)
  .debug_abbrev  0x0000134d      0x3ac Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
  .debug_abbrev  0x000016f9      0x397 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
  .debug_abbrev  0x00001a90      0x2e7 Src\bmi160.o
- .debug_abbrev  0x00001d77      0x3c9 Src\main.o
- .debug_abbrev  0x00002140      0x28f Src\stm32f4xx_hal_msp.o
- .debug_abbrev  0x000023cf      0x23c Src\stm32f4xx_it.o
- .debug_abbrev  0x0000260b      0x1ca Src\system_stm32f4xx.o
- .debug_abbrev  0x000027d5       0x12 startup\startup_stm32f401xe.o
+ .debug_abbrev  0x00001d77      0x3de Src\main.o
+ .debug_abbrev  0x00002155      0x28f Src\stm32f4xx_hal_msp.o
+ .debug_abbrev  0x000023e4      0x23c Src\stm32f4xx_it.o
+ .debug_abbrev  0x00002620      0x1ca Src\system_stm32f4xx.o
+ .debug_abbrev  0x000027ea       0x12 startup\startup_stm32f401xe.o
 
 .debug_loc      0x00000000     0x6d53
  .debug_loc     0x00000000      0x11b Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
@@ -1768,7 +1826,7 @@ OUTPUT(projectNock_stm32f.elf elf32-littlearm)
  .debug_ranges  0x00000cf0       0x18 Src\system_stm32f4xx.o
  .debug_ranges  0x00000d08       0x20 startup\startup_stm32f401xe.o
 
-.debug_line     0x00000000     0x5d10
+.debug_line     0x00000000     0x5d0e
  .debug_line    0x00000000      0x491 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
  .debug_line    0x00000491      0x4dc Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.o
  .debug_line    0x0000096d      0x5f7 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.o
@@ -1778,38 +1836,38 @@ OUTPUT(projectNock_stm32f.elf elf32-littlearm)
  .debug_line    0x000031d4      0xbb2 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
  .debug_line    0x00003d86      0xbef Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
  .debug_line    0x00004975      0x395 Src\bmi160.o
- .debug_line    0x00004d0a      0x4e8 Src\main.o
- .debug_line    0x000051f2      0x4ae Src\stm32f4xx_hal_msp.o
- .debug_line    0x000056a0      0x37c Src\stm32f4xx_it.o
- .debug_line    0x00005a1c      0x275 Src\system_stm32f4xx.o
- .debug_line    0x00005c91       0x7f startup\startup_stm32f401xe.o
+ .debug_line    0x00004d0a      0x4e6 Src\main.o
+ .debug_line    0x000051f0      0x4ae Src\stm32f4xx_hal_msp.o
+ .debug_line    0x0000569e      0x37c Src\stm32f4xx_it.o
+ .debug_line    0x00005a1a      0x275 Src\system_stm32f4xx.o
+ .debug_line    0x00005c8f       0x7f startup\startup_stm32f401xe.o
 
-.debug_str      0x00000000     0x3c72
- .debug_str     0x00000000      0xd98 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
+.debug_str      0x00000000     0x3eb3
+ .debug_str     0x00000000      0xdac Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
                                 0xe76 (size before relaxing)
- .debug_str     0x00000d98      0x3c0 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.o
+ .debug_str     0x00000dac      0x3c0 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.o
                                 0xf63 (size before relaxing)
- .debug_str     0x00001158      0x4e2 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.o
+ .debug_str     0x0000116c      0x4e2 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.o
                                 0xc21 (size before relaxing)
- .debug_str     0x0000163a      0x1ac Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.o
+ .debug_str     0x0000164e      0x1ac Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.o
                                 0x9ad (size before relaxing)
- .debug_str     0x000017e6      0x9f8 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_i2c.o
+ .debug_str     0x000017fa      0xa03 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_i2c.o
                                0x13e6 (size before relaxing)
- .debug_str     0x000021de      0x2a7 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.o
+ .debug_str     0x000021fd      0x2a7 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.o
                                 0xb80 (size before relaxing)
- .debug_str     0x00002485      0x656 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
+ .debug_str     0x000024a4      0x656 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
                                0x1025 (size before relaxing)
- .debug_str     0x00002adb      0x633 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
+ .debug_str     0x00002afa      0x633 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.o
                                0x109d (size before relaxing)
- .debug_str     0x0000310e      0x6e9 Src\bmi160.o
+ .debug_str     0x0000312d      0x6e9 Src\bmi160.o
                                0x11f2 (size before relaxing)
- .debug_str     0x000037f7      0x305 Src\main.o
-                               0x2017 (size before relaxing)
- .debug_str     0x00003afc       0x1b Src\stm32f4xx_hal_msp.o
+ .debug_str     0x00003816      0x527 Src\main.o
+                               0x2199 (size before relaxing)
+ .debug_str     0x00003d3d       0x1b Src\stm32f4xx_hal_msp.o
                                0x14e4 (size before relaxing)
- .debug_str     0x00003b17      0x116 Src\stm32f4xx_it.o
+ .debug_str     0x00003d58      0x116 Src\stm32f4xx_it.o
                                 0xc1a (size before relaxing)
- .debug_str     0x00003c2d       0x45 Src\system_stm32f4xx.o
+ .debug_str     0x00003e6e       0x45 Src\system_stm32f4xx.o
                                 0x811 (size before relaxing)
 
 .comment        0x00000000       0x7c
@@ -1867,6 +1925,13 @@ Cross Reference Table
 
 Symbol                                            File
 ADC_IRQHandler                                    startup\startup_stm32f401xe.o
+ADXL372::getQuickData(unsigned char*)             Src\adxl372.o
+ADXL372::getReadableData(unsigned long*)          Src\adxl372.o
+ADXL372::initialize()                             Src\adxl372.o
+ADXL372::multiRead(unsigned char, unsigned char*, unsigned char) Src\adxl372.o
+ADXL372::regRead(unsigned char)                   Src\adxl372.o
+ADXL372::regWrite(unsigned char, unsigned char)   Src\adxl372.o
+ADXL372::test()                                   Src\adxl372.o
 AHBPrescTable                                     Src\system_stm32f4xx.o
                                                   Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.o
 APBPrescTable                                     Src\system_stm32f4xx.o
@@ -1951,6 +2016,7 @@ HAL_DeInit                                        Drivers\STM32F4xx_HAL_Driver\S
 HAL_Delay                                         Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
                                                   Src\main.o
                                                   Src\bmi160.o
+                                                  Src\adxl372.o
 HAL_DisableCompensationCell                       Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
 HAL_EnableCompensationCell                        Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
 HAL_FLASHEx_AdvOBGetConfig                        Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash_ex.o
@@ -1986,6 +2052,7 @@ HAL_GPIO_TogglePin                                Drivers\STM32F4xx_HAL_Driver\S
 HAL_GPIO_WritePin                                 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.o
                                                   Src\main.o
                                                   Src\bmi160.o
+                                                  Src\adxl372.o
 HAL_GetDEVID                                      Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
 HAL_GetHalVersion                                 Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
 HAL_GetREVID                                      Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.o
@@ -2165,12 +2232,14 @@ HAL_SPI_MspInit                                   Src\stm32f4xx_hal_msp.o
                                                   Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 HAL_SPI_Receive                                   Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
                                                   Src\bmi160.o
+                                                  Src\adxl372.o
 HAL_SPI_Receive_DMA                               Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 HAL_SPI_Receive_IT                                Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 HAL_SPI_RxCpltCallback                            Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 HAL_SPI_RxHalfCpltCallback                        Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 HAL_SPI_Transmit                                  Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
                                                   Src\bmi160.o
+                                                  Src\adxl372.o
 HAL_SPI_TransmitReceive                           Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 HAL_SPI_TransmitReceive_DMA                       Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
 HAL_SPI_TransmitReceive_IT                        Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_spi.o
@@ -2306,9 +2375,11 @@ __aeabi_unwind_cpp_pr0                            c:/program files (x86)/atollic
                                                   c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(pr-support.o)
                                                   Src\main.o
                                                   Src\bmi160.o
+                                                  Src\adxl372.o
 __aeabi_unwind_cpp_pr1                            c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(unwind-arm.o)
                                                   c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(pr-support.o)
                                                   Src\bmi160.o
+                                                  Src\adxl372.o
 __aeabi_unwind_cpp_pr2                            c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(unwind-arm.o)
 __cxa_begin_cleanup                               c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(unwind-arm.o)
 __cxa_call_unexpected                             c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu\libgcc.a(unwind-arm.o)
@@ -2475,6 +2546,7 @@ memmove                                           c:/program files (x86)/atollic
 memset                                            c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-memset.o)
                                                   Src\main.o
                                                   Src\bmi160.o
+                                                  Src\adxl372.o
 pFlash                                            Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash.o
                                                   Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash_ex.o
 raise                                             c:/program files (x86)/atollic/truestudio for stm32 9.1.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-signal.o)

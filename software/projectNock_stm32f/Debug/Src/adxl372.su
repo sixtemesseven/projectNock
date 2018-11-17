@@ -1,0 +1,7 @@
+adxl372.cpp:10:6:void ADXL372::regWrite(uint8_t, uint8_t)	16	static
+adxl372.cpp:21:9:uint8_t ADXL372::regRead(uint8_t)	24	static
+adxl372.cpp:34:6:void ADXL372::initialize()	0	static
+adxl372.cpp:39:6:bool ADXL372::test()	8	static
+adxl372.cpp:45:6:void ADXL372::multiRead(uint8_t, uint8_t*, uint8_t)	32	static
+adxl372.cpp:56:6:void ADXL372::getReadableData(uint32_t*)	32	static
+adxl372.cpp:81:6:void ADXL372::getQuickData(uint8_t*)	0	static
