@@ -143,11 +143,14 @@ int main(void)
 
 	  //IMU.getQuickDataBMI160(sen);
 	  IMU.getReadableDataBMI160(sen32);
+	  HAL_Delay(100);
+
 
 	  //Pack everything in buffer
 	  //sprintf(buffer, "%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\n\r", sen[0], sen[1],sen[2],sen[3],sen[4],sen[5],sen[6],sen[7],sen[8],sen[9],sen[10],sen[11],sen[12],sen[13],sen[14]);
 	  sprintf(buffer, "%08lu\n\r", sen32[0]);
 
+	  /*
 	  //Find out how many chars are meaningfull
 	  uint8_t len = 0;
 	  while(len < 100)
@@ -161,6 +164,7 @@ int main(void)
 
 	  //Send data via uart
 	  HAL_UART_Transmit(&huart6, (uint8_t*) buffer, len, 1000);
+	  */
 
   /* USER CODE BEGIN 3 */
 

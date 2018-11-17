@@ -84,7 +84,7 @@ void BMI160::getReadableDataBMI160(uint32_t* data)
 	//j counts the bitshift position
 	for(uint8_t j = 0; j < 3; j++)
 	{
-		data[6] += (buffer[k++] << (8*j)); 				//sensor time lsb to msb
+		data[6] += (((uint32_t) buffer[k++]) << (8*j)); 				//sensor time lsb to msb
 	}
 }
 
