@@ -127,6 +127,9 @@ int main(void)
   BMI160 IMU(&hspi2, SPI2_CSS_Pin, GPIOA);
   IMU.initializeBMI160();
 
+  ADXL372 ACCEL(&hspi3, SPI1_CSS_Pin, GPIOA);
+  ACCEL.initialize();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -141,6 +144,10 @@ int main(void)
 	  uint8_t sen[16] = {0};
 	  uint32_t sen32[7] = {0};
 	  char buffer [100] = {};
+
+	  uint8_t reg[1] = {};
+	  reg[0] = ACCEL.regRead(0x00);
+	  sprintf(buffer, "%08u\n\r", reg[0]);
 
 	  //IMU.getQuickDataBMI160(sen);
 	  IMU.getReadableDataBMI160(sen32);
@@ -420,7 +427,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = LD2_Pin|SPI3_CSS_Pin|SPI2_CSS_Pin|SPI1_CSS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB15 */

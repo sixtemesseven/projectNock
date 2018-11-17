@@ -10,30 +10,31 @@
 void ADXL372::regWrite(uint8_t reg, uint8_t data)
 {
 	uint8_t d[2] = { };
-	d[0] = reg;
+	d[0] = reg << 1; //shift left 1, add 0 (LSB is R/W Bit)
 	d[1] = data;
 
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET); //TODO replace GPIO with sturct
-	HAL_SPI_Transmit(BMI160_SPI_HANDLER, d, 2, 1000);
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_RESET); //TODO replace GPIO with sturct
+	HAL_SPI_Transmit(SPI_HANDLER, d, 2, 1000);
+	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_SET);
 }
 
 uint8_t ADXL372::regRead(uint8_t reg)
 {
 	uint8_t d[2] = {};
-	d[0] = reg + 0b10000000; //MSB must be 1 for read comand!
+	d[0] = (reg << 1) + 1; //shift left 1, add 1 (LSB is R/_W Bit)
 
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(BMI160_SPI_HANDLER, &d[0], 1, 1000);
+	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(SPI_HANDLER, &d[0], 1, 1000);
 	HAL_Delay(1);
-	HAL_SPI_Receive(BMI160_SPI_HANDLER, &d[1], 1, 1000);
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
+	HAL_SPI_Receive(SPI_HANDLER, &d[1], 1, 1000);
+	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_SET);
 	return d[1];
 }
 
 void ADXL372::initialize()
 {
-
+	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_SET);
+	HAL_Delay(10);
 }
 
 bool ADXL372::test()
@@ -46,11 +47,11 @@ void ADXL372::multiRead(uint8_t startReg, uint8_t* data, uint8_t nos)
 {
 	//Send one byte specifing the register to read
 	//Read nos bytes of data back
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_RESET);
 	uint8_t startRegOne = startReg + 0b10000000; //read access so plus 128
-	HAL_SPI_Transmit(BMI160_SPI_HANDLER, &startRegOne, 1, 1000);
-	HAL_SPI_Receive(BMI160_SPI_HANDLER, data, nos, 1000);
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
+	HAL_SPI_Transmit(SPI_HANDLER, &startRegOne, 1, 1000);
+	HAL_SPI_Receive(SPI_HANDLER, data, nos, 1000);
+	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_SET);
 }
 
 void ADXL372::getReadableData(uint32_t* data)

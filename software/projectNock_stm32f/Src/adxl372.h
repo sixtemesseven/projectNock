@@ -72,11 +72,11 @@ const uint8_t FIFO_DATA = 0x42;
 class ADXL372
 {
 	public:
-			ADXL372(SPI_HandleTypeDef* bmiSPI, uint8_t bmiGPIO, GPIO_TypeDef* bmiBANK)
+			ADXL372(SPI_HandleTypeDef* bmiSPI, uint16_t bmiGPIO, GPIO_TypeDef* bmiBANK)
 			{
-				BMI160_SPI_HANDLER = bmiSPI;
-				BMI160_CSS_PIN = bmiGPIO;
-				BMI160_PIN_BANK = bmiBANK;
+				SPI_HANDLER = bmiSPI;
+				CSS_PIN = bmiGPIO;
+				PIN_BANK = bmiBANK;
 			}
 			void regWrite(uint8_t reg, uint8_t data);
 			uint8_t regRead(uint8_t reg);
@@ -86,9 +86,9 @@ class ADXL372
 			void getQuickData(uint8_t* data);
 			void multiRead(uint8_t startReg, uint8_t* data, uint8_t nos);
 	private:
-			SPI_HandleTypeDef* BMI160_SPI_HANDLER;			//Spi handler and pin setting stuff
-			uint8_t BMI160_CSS_PIN;
-			GPIO_TypeDef* BMI160_PIN_BANK;
+			SPI_HandleTypeDef* SPI_HANDLER;			//Spi handler and pin setting stuff
+			uint16_t CSS_PIN;
+			GPIO_TypeDef* PIN_BANK;
 };
 
 
