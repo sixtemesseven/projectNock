@@ -42,6 +42,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "bmi160.h"
+#include "adxl372.h"
 
 /* USER CODE END Includes */
 
