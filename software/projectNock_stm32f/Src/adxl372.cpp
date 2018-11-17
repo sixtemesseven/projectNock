@@ -48,7 +48,7 @@ void ADXL372::multiRead(uint8_t startReg, uint8_t* data, uint8_t nos)
 	//Send one byte specifing the register to read
 	//Read nos bytes of data back
 	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_RESET);
-	uint8_t startRegOne = startReg + 0b10000000; //read access so plus 128
+	uint8_t startRegOne = (startReg << 1) + 1; // LSB is R/_W Bit
 	HAL_SPI_Transmit(SPI_HANDLER, &startRegOne, 1, 1000);
 	HAL_SPI_Receive(SPI_HANDLER, data, nos, 1000);
 	HAL_GPIO_WritePin(PIN_BANK, CSS_PIN, GPIO_PIN_SET);

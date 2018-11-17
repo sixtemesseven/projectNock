@@ -129,6 +129,7 @@ int main(void)
 
   ADXL372 ACCEL(&hspi3, SPI1_CSS_Pin, GPIOA);
   ACCEL.initialize();
+  ACCEL.regWrite(0x3c, 0x01);
 
   /* USER CODE END 2 */
 
@@ -138,25 +139,30 @@ int main(void)
   {
 
   /* USER CODE END WHILE */
+	  uint8_t data[40] ={};
+	  ACCEL.multiRead(0x38, data, 10);
+
+
 	  //HAL_SPI_Transmit(&hspi2, (uint8_t*) 0xff, 1, 1000);
 	  //HAL_Delay(100);
 
-	  uint8_t sen[16] = {0};
-	  uint32_t sen32[7] = {0};
-	  char buffer [100] = {};
+	  //uint8_t sen[16] = {0};
+	  //uint32_t sen32[7] = {0};
+	  //char buffer [100] = {};
 
-	  uint8_t reg[1] = {};
-	  reg[0] = ACCEL.regRead(0x00);
-	  sprintf(buffer, "%08u\n\r", reg[0]);
+	  //uint8_t reg[1] = {};
+	  HAL_Delay(10);
+	  ACCEL.regRead(0x00);
+	  //sprintf(buffer, "%08u\n\r", reg[0]);
 
 	  //IMU.getQuickDataBMI160(sen);
-	  IMU.getReadableDataBMI160(sen32);
-	  HAL_Delay(100);
+	  //IMU.getReadableDataBMI160(sen32);
+	  HAL_Delay(10);
 
 
 	  //Pack everything in buffer
 	  //sprintf(buffer, "%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\n\r", sen[0], sen[1],sen[2],sen[3],sen[4],sen[5],sen[6],sen[7],sen[8],sen[9],sen[10],sen[11],sen[12],sen[13],sen[14]);
-	  sprintf(buffer, "%08lu\n\r", sen32[0]);
+	  //sprintf(buffer, "%08lu\n\r", sen32[0]);
 
 	  /*
 	  //Find out how many chars are meaningfull
