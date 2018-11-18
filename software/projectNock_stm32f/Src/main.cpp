@@ -129,7 +129,7 @@ int main(void)
 
   ADXL372 ACCEL(&hspi3, SPI1_CSS_Pin, GPIOA);
   ACCEL.initialize();
-  ACCEL.regWrite(0x3c, 0x01);
+  ACCEL.regWrite(0x3f, 0b00011111); //POWER_CTL
 
   /* USER CODE END 2 */
 
@@ -140,7 +140,7 @@ int main(void)
 
   /* USER CODE END WHILE */
 	  uint8_t data[40] ={};
-	  ACCEL.multiRead(0x38, data, 10);
+	  ACCEL.multiRead(0x08, data, 6);
 
 
 	  //HAL_SPI_Transmit(&hspi2, (uint8_t*) 0xff, 1, 1000);
@@ -151,8 +151,8 @@ int main(void)
 	  //char buffer [100] = {};
 
 	  //uint8_t reg[1] = {};
-	  HAL_Delay(10);
-	  ACCEL.regRead(0x00);
+	  //HAL_Delay(10);
+	  //ACCEL.regRead(0x00);
 	  //sprintf(buffer, "%08u\n\r", reg[0]);
 
 	  //IMU.getQuickDataBMI160(sen);
