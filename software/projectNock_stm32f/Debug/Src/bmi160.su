@@ -3,5 +3,5 @@ bmi160.cpp:22:9:uint8_t BMI160::regRead(uint8_t)	24	static
 bmi160.cpp:35:6:void BMI160::initializeBMI160()	8	static
 bmi160.cpp:49:6:bool BMI160::testBMI160()	8	static
 bmi160.cpp:55:6:void BMI160::multiReadBMI160(uint8_t, uint8_t*, uint8_t)	32	static
-bmi160.cpp:66:6:void BMI160::getReadableDataBMI160(uint32_t*)	32	static
+bmi160.cpp:66:6:void BMI160::getReadableDataBMI160(int32_t*)	32	static
 bmi160.cpp:91:6:void BMI160::getQuickDataBMI160(uint8_t*)	0	static

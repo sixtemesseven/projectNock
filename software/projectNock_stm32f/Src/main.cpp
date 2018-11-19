@@ -139,15 +139,15 @@ int main(void)
   {
 
   /* USER CODE END WHILE */
-	  uint8_t data[40] ={};
-	  ACCEL.multiRead(0x08, data, 6);
+	  //uint8_t data[40] ={};
+	  //ACCEL.multiRead(0x08, data, 6);
 
 
 	  //HAL_SPI_Transmit(&hspi2, (uint8_t*) 0xff, 1, 1000);
 	  //HAL_Delay(100);
 
 	  //uint8_t sen[16] = {0};
-	  //uint32_t sen32[7] = {0};
+	  int32_t sen32[7] = {0};
 	  //char buffer [100] = {};
 
 	  //uint8_t reg[1] = {};
@@ -156,13 +156,20 @@ int main(void)
 	  //sprintf(buffer, "%08u\n\r", reg[0]);
 
 	  //IMU.getQuickDataBMI160(sen);
-	  //IMU.getReadableDataBMI160(sen32);
-	  HAL_Delay(10);
+	  IMU.getReadableDataBMI160(sen32);
 
-
-	  //Pack everything in buffer
-	  //sprintf(buffer, "%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\n\r", sen[0], sen[1],sen[2],sen[3],sen[4],sen[5],sen[6],sen[7],sen[8],sen[9],sen[10],sen[11],sen[12],sen[13],sen[14]);
+	  //Pack everything in buffer 13+24+8+2 chars
+	  uint8_t bulen = 6*6+8+2+6;
+	  char buffer[bulen] = {0};
+	  uint8_t buf[bulen] = {0};
+	  sprintf(buffer, "%06d,%06d,%06d,%06d,%06d,%06d,%08u\n\r", sen32[0],sen32[1],sen32[2],sen32[3],sen32[4],sen32[5],sen32[6]);
 	  //sprintf(buffer, "%08lu\n\r", sen32[0]);
+	  for(int i = 0; i < bulen; i++)
+	  {
+		  buf[i] = buffer[i];
+	  }
+
+	  HAL_UART_Transmit(&huart6, buf, bulen, 1000);
 
 	  /*
 	  //Find out how many chars are meaningfull
@@ -342,7 +349,7 @@ static void MX_USART2_UART_Init(void)
 {
 
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 500000;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -361,7 +368,7 @@ static void MX_USART6_UART_Init(void)
 {
 
   huart6.Instance = USART6;
-  huart6.Init.BaudRate = 115200;
+  huart6.Init.BaudRate = 500000;
   huart6.Init.WordLength = UART_WORDLENGTH_8B;
   huart6.Init.StopBits = UART_STOPBITS_1;
   huart6.Init.Parity = UART_PARITY_NONE;

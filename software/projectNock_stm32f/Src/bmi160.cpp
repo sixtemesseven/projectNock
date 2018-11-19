@@ -63,7 +63,7 @@ void BMI160::multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos)
 	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
 }
 
-void BMI160::getReadableDataBMI160(uint32_t* data)
+void BMI160::getReadableDataBMI160(int32_t* data)
 {
 	//Read sensor bytes into buffer
 	uint8_t buffer[15] = {0x00};
