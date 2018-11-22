@@ -162,7 +162,7 @@ int main(void)
 	  uint8_t bulen = 6*6+8+2+6;
 	  char buffer[bulen] = {0};
 	  uint8_t buf[bulen] = {0};
-	  sprintf(buffer, "%05d,%05d,%05d,%05d,%05d,%05d,%08u\n\r", ~sen32[0],~ ((uint16_t)sen32[1]),~sen32[2],~sen32[3],~sen32[4],~sen32[5],sen32[6]);
+	  sprintf(buffer, "%05d,%05d,%05d,%05d,%05d,%05d,%08u\n\r", sen32[0],sen32[1]),sen32[2],sen32[3],sen32[4],sen32[5],sen32[6]);
 	  //sprintf(buffer, "%08lu\n\r", sen32[0]);
 	  for(int i = 0; i < bulen; i++)
 	  {

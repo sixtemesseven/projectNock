@@ -67,6 +67,7 @@ void BMI160::getReadableDataBMI160(int32_t* data)
 {
 	//Read sensor bytes into buffer
 	uint8_t buffer[15] = {0x00};
+	uint16_t dataBuffer[7] = {0};
 	multiReadBMI160(0x0C, buffer, 15);
 
 	//Calculate Accel and Gyro values
@@ -75,8 +76,15 @@ void BMI160::getReadableDataBMI160(int32_t* data)
 	uint8_t k = 0;
 	for(uint8_t i = 0; i < 6; i++)
 	{
-		data[i] = (uint32_t) buffer[k++]; 				//LSB
-		data[i] += ((uint32_t) buffer[k++]) << 8; 		//MSB
+		dataBuffer[i] = (uint32_t) buffer[k++]; 				//LSB
+		dataBuffer[i] += ((uint32_t) buffer[k++]) << 8; 		//MSB
+	}
+
+	//Convert two's complement to signed integer
+	//Bitflip and than chast...
+	for(uint8_t k = 0; k<6; k++)
+	{
+		data[k] = (int32_t)(~dataBuffer[k]);
 	}
 
 	//Calculate Sensor Time
