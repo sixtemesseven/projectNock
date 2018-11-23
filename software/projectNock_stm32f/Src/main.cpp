@@ -126,10 +126,14 @@ int main(void)
 
   BMI160 IMU(&hspi2, SPI2_CSS_Pin, GPIOA);
   IMU.initializeBMI160();
+  IMU.setAccRange(BMI160_ACCEL_RANGE_16G);
+  IMU.setGyroRange(BMI160_GYRO_RANGE_2000);
+  IMU.writeBit(BMI160_RA_INT_STATUS_0, BMI160_DRDY_EN_BIT, true); // Set Interupt 0 to data ready output
 
   ADXL372 ACCEL(&hspi3, SPI1_CSS_Pin, GPIOA);
   ACCEL.initialize();
   ACCEL.regWrite(0x3f, 0b00011111); //POWER_CTL
+
 
   /* USER CODE END 2 */
 
@@ -159,10 +163,12 @@ int main(void)
 	  IMU.getReadableDataBMI160(sen32);
 
 	  //Pack everything in buffer 13+24+8+2 chars
-	  uint8_t bulen = 6*6+8+2+6;
+	  uint8_t bulen = 50;
 	  char buffer[bulen] = {0};
 	  uint8_t buf[bulen] = {0};
-	  sprintf(buffer, "%05d,%05d,%05d,%05d,%05d,%05d,%08u\n\r", sen32[0],sen32[1]),sen32[2],sen32[3],sen32[4],sen32[5],sen32[6]);
+
+	  sprintf(buffer, "%d,%d,%d,%d,%d,%d,%08d\n\r", sen32[0], sen32[1], sen32[2], sen32[3], sen32[4], sen32[5], sen32[6]);
+
 	  //sprintf(buffer, "%08lu\n\r", sen32[0]);
 	  for(int i = 0; i < bulen; i++)
 	  {

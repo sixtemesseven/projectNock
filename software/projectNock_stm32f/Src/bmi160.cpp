@@ -76,15 +76,22 @@ void BMI160::getReadableDataBMI160(int32_t* data)
 	uint8_t k = 0;
 	for(uint8_t i = 0; i < 6; i++)
 	{
-		dataBuffer[i] = (uint32_t) buffer[k++]; 				//LSB
-		dataBuffer[i] += ((uint32_t) buffer[k++]) << 8; 		//MSB
+		dataBuffer[i] = (uint16_t) buffer[k++]; 				//LSB
+		dataBuffer[i] += ((uint16_t) buffer[k++]) << 8; 		//MSB
 	}
 
 	//Convert two's complement to signed integer
 	//Bitflip and than chast...
-	for(uint8_t k = 0; k<6; k++)
+	for(uint8_t k = 0; k < 6; k++)
 	{
-		data[k] = (int32_t)(~dataBuffer[k]);
+		if(dataBuffer[k] < 32768)
+		{
+			data[k] = dataBuffer[k];
+		}
+		else
+		{
+			data[k] = -1 * (65536 - dataBuffer[k]);
+		}
 	}
 
 	//Calculate Sensor Time
@@ -101,3 +108,48 @@ void BMI160::getQuickDataBMI160(uint8_t* data)
 	//Read Accel and Gyro Bytes and write to data
 	multiReadBMI160(0x0C, data, 15);
 }
+
+void BMI160::setAccRange(BMI160AccelRange range)
+{
+	regWrite(BMI160_RA_ACCEL_RANGE, range);
+}
+
+void BMI160::setGyroRange(BMI160GyroRange range)
+{
+	regWrite(BMI160_RA_GYRO_RANGE, range);
+}
+
+void BMI160::setAccelRate(BMI160AccelRate rate)
+{
+
+}
+
+void BMI160::setGyroRate(BMI160GyroRate rate)
+{
+
+}
+
+void BMI160::setLowPassMode(BMI160DLPFMode lpf)
+{
+
+}
+
+bool BMI160::getBit(uint8_t reg, uint8_t bitPos)
+{
+	uint8_t buf = regRead(reg);
+	buf = buf << (8 - bitPos);
+	buf = buf >> bitPos;
+	return(buf != 0);
+
+}
+
+void BMI160::writeBit(uint8_t reg, uint8_t bitPos, bool bit)
+{
+	if(getBit(reg, bitPos) != bit) //Check if bit is wrong
+	{
+		uint8_t buf = regRead(reg);
+		buf ^= 1UL << bitPos; //Toggle bit
+		regWrite(reg, buf);
+	}
+}
+

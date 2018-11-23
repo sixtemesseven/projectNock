@@ -452,8 +452,6 @@ class BMI160
 			BMI160_CSS_PIN = bmiGPIO;
 			BMI160_PIN_BANK = bmiBANK;
 		}
-		void regWrite(uint8_t reg, uint8_t data); 									//Writes a byte into one register
-		uint8_t regRead(uint8_t reg); 												//Reads one register
 		void initializeBMI160();													//Initializes sensor, start up etc. call first!
 		bool testBMI160();															//Reads register 0x00 which should return 0x1d, then true
 		void multiReadBMI160(uint8_t startReg, uint8_t* data, uint8_t nos); 		//Returns pointer with nos samples
@@ -464,11 +462,18 @@ class BMI160
 		void setAccelRate(BMI160AccelRate rate);
 		void setGyroRate(BMI160GyroRate rate);
 		void setLowPassMode(BMI160DLPFMode lpf);
+		bool getBit(uint8_t reg, uint8_t bitPos);
+		void writeBit(uint8_t reg, uint8_t bitPos, bool bit);
+		void regWrite(uint8_t reg, uint8_t data); 									//Writes a byte into one register
+		uint8_t regRead(uint8_t reg);
+
 
 	private:
 		SPI_HandleTypeDef* BMI160_SPI_HANDLER;			//Spi handler and pin setting stuff
 		uint16_t BMI160_CSS_PIN;
 		GPIO_TypeDef* BMI160_PIN_BANK;
+
+										//Reads one register
 };
 
 
