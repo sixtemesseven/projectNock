@@ -6543,7 +6543,7 @@ class BMI160
  8003078:	4629      	mov	r1, r5
  800307a:	f107 0014 	add.w	r0, r7, #20
  800307e:	f7ff fe0b 	bl	8002c98 <_ZN6BMI16012setGyroRangeE15BMI160GyroRange>
-  IMU.writeBit(BMI160_RA_INT_STATUS_0, BMI160_DRDY_EN_BIT, true);
+  IMU.writeBit(BMI160_RA_INT_STATUS_0, BMI160_DRDY_EN_BIT, true); // Set Interupt 0 to data ready output
  8003082:	2204      	movs	r2, #4
  8003084:	211c      	movs	r1, #28
  8003086:	464b      	mov	r3, r9
