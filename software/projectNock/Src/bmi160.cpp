@@ -14,7 +14,7 @@ void BMI160::regWrite(uint8_t reg, uint8_t data)
 	d[0] = reg;
 	d[1] = data;
 
-	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET); //TODO replace GPIO with sturct
+	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(BMI160_SPI_HANDLER, d, 2, 1000);
 	HAL_GPIO_WritePin(BMI160_PIN_BANK, BMI160_CSS_PIN, GPIO_PIN_SET);
 }
